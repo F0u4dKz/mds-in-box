@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: olist
+    description: Olist tables loaded by dlt into warehouse/raw.duckdb
+    database: raw
+    schema: olist
+    tables:
+      - name: olist_customers
+        description: One row per order-scoped customer_id (not the unique person)
+      - name: olist_orders
+        description: One row per order, including status and delivery timestamps
+      - name: olist_order_items
+        description: One row per item in an order
+      - name: olist_products
+        description: Product attributes; category name is Portuguese
+      - name: product_category_name_translation
+        description: Portuguese product category names mapped to English

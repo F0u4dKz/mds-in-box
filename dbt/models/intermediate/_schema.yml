@@ -1,0 +1,76 @@
+version: 2
+
+models:
+  - name: int_fact_orders
+    description: One row per order and product. Uses customer_unique_id so repeat orders by the same person share a customer key. Quantity is item-row count; order_amount is sum of unit price (freight excluded).
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - order_id
+              - product_id
+    columns:
+      - name: order_hk
+        description: MD5 of order_id, customer_unique_id, and product_id
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('fng_orders')
+                field: order_id
+      - name: customer_unique_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('int_dim_customer')
+                field: customer_unique_id
+      - name: product_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('int_dim_product')
+                field: product_id
+      - name: purchased_at
+        tests:
+          - not_null
+      - name: quantity
+        tests:
+          - not_null
+      - name: order_amount
+        tests:
+          - not_null
+
+  - name: int_dim_product
+    description: One row per product. Missing or untranslated categories are labeled Unknown.
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('fng_product')
+                field: product_id
+      - name: product_category_name_english
+        tests:
+          - not_null
+
+  - name: int_dim_customer
+    description: One row per real customer (customer_unique_id). City and state are any one of that person's feeding rows.
+    columns:
+      - name: customer_unique_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_city
+        tests:
+          - not_null
+      - name: customer_state
+        tests:
+          - not_null

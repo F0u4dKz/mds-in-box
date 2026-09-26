@@ -1,0 +1,11 @@
+olist:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../warehouse/analytics.duckdb
+      threads: 1
+      attach:
+        - path: ../warehouse/raw.duckdb
+          alias: raw
+          read_only: true
