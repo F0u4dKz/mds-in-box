@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: fng_customer
+    description: Feeding layer for Olist customers. customer_id is per-order; customer_unique_id is the person.
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_unique_id
+        tests:
+          - not_null
+
+  - name: fng_orders
+    description: Feeding layer for Olist orders.
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+
+  - name: fng_order_items
+    description: Feeding layer for Olist order line items.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - order_id
+              - order_item_id
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+      - name: order_item_id
+        tests:
+          - not_null
+      - name: product_id
+        tests:
+          - not_null
+
+  - name: fng_product
+    description: Feeding layer for Olist products. Category name is still Portuguese.
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+
+  - name: fng_product_category_name_translation
+    description: Feeding layer for Portuguese-to-English product category names.
+    columns:
+      - name: product_category_name
+        tests:
+          - unique
+          - not_null
+      - name: product_category_name_english
+        tests:
+          - not_null

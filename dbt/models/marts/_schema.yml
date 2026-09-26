@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: mart_sales_monthly
+    description: One row per calendar month. Revenue is sum of order_amount (unit price, no freight). AOV is revenue / distinct orders. revenue_mom_rate is vs the previous month; first month is null.
+    columns:
+      - name: purchase_month
+        tests:
+          - unique
+          - not_null
+      - name: revenue
+        tests:
+          - not_null
+      - name: order_count
+        tests:
+          - not_null
+      - name: aov
+        tests:
+          - not_null
+
+  - name: mart_sales_category
+    description: One row per English product category (all-time). For a top-N revenue bar chart, order by revenue desc. Quantity is units sold; order_count is distinct orders that bought the category.
+    columns:
+      - name: product_category_name_english
+        tests:
+          - unique
+          - not_null
+      - name: revenue
+        tests:
+          - not_null
+      - name: quantity
+        tests:
+          - not_null
+      - name: order_count
+        tests:
+          - not_null

@@ -1,9 +1,23 @@
 # Dependencies
 node_modules/
+.venv/
 
 # Environment
 .env
 .env.*
+!.env.example
+
+# Data warehouse (generated)
+warehouse/
+
+# dlt
+.dlt/secrets.toml
+
+# dbt
+target/
+dbt_packages/
+logs/
+dbt/.user.yml
 
 # OS
 .DS_Store

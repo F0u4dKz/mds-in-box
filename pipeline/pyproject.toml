@@ -1,0 +1,12 @@
+[project]
+name = "mds-in-box-pipeline"
+version = "0.1.0"
+description = "dlt ingestion pipeline for Olist data into DuckDB"
+requires-python = ">=3.11"
+dependencies = [
+    "dlt[duckdb]>=1.0",
+]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
