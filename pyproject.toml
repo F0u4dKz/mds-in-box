@@ -1,0 +1,9 @@
+[project]
+name = "mds-in-box"
+version = "0.1.0"
+description = "Local MDS-in-a-box stack: dlt + DuckDB + dbt + Streamlit"
+requires-python = ">=3.11"
+
+[tool.sqlfmt]
+# Keep dbt Jinja models stable under sqlfmt --check in CI.
+line_length = 88

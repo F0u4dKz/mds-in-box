@@ -9,3 +9,11 @@ olist:
         - path: ../warehouse/raw.duckdb
           alias: raw
           read_only: true
+    ci:
+      type: duckdb
+      path: ../warehouse/ci_analytics.duckdb
+      threads: 1
+      attach:
+        - path: ../warehouse/ci_raw.duckdb
+          alias: raw
+          read_only: true
